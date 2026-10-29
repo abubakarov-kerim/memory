@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MEMORI: парфюмерия в Грозном</title>
+<meta name="description" content="MEMORI: оригинальная парфюмерия и отливанты в Грозном. Каталог с фильтрами по нотам, подбор аромата по характеру и заказ в мессенджере.">
+<meta name="theme-color" content="#0B0B0C">
+<meta property="og:title" content="MEMORI: запах, который запоминают">
+<meta property="og:description" content="Оригинальная парфюмерия и отливанты. Подбор аромата по характеру, заказ в Telegram, WhatsApp или Instagram.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0B0C'/%3E%3Cpath d='M7 24V8h3l6 9 6-9h3v16h-3V13l-6 9-6-9v11z' fill='%23EDEDEE'/%3E%3Crect x='7' y='26' width='18' height='2' fill='%23C8102E'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/FiraSansExtraCondensed-800-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/style.css?v=2026-10-28.1">
+<script>(function(){try{var t=localStorage.getItem('memori_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>
+/* АВТООБНОВЛЕНИЕ: если на сервере вышла новая версия, открываем её сами. При каждой публикации меняется MEMORI_BUILD. */
+var MEMORI_BUILD='2026-10-28.1';
+(function(){
+  if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
+  fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
+    var m=t.match(/MEMORI_BUILD='([^']+)'/); if(!m || m[1]===MEMORI_BUILD) return;
+    try{ if(sessionStorage.getItem('memori_upd')===m[1]) return; sessionStorage.setItem('memori_upd',m[1]); }catch(e){ return; }
+    location.replace(location.pathname+'?v='+encodeURIComponent(m[1])+location.hash);
+  }).catch(function(){});
+})();
+</script>
+</head>
+<body>
+
+<!-- ВСТУПЛЕНИЕ: штрихкод, красная линия скана, имя, затем экран раскрывается на две половины -->
+<div id="intro" aria-hidden="true">
+  <div class="in-half in-top"></div><div class="in-half in-bot"></div>
+  <div class="in-core">
+    <div class="in-code" id="inCode"></div>
+    <div class="in-word" id="inWord"></div>
+    <div class="in-sub"><span>Парфюмерия</span><span>Грозный</span></div>
+  </div>
+  <div class="in-scan"></div>
+  <div class="in-seam"></div>
+  <button class="in-skip" type="button" onclick="introEnd(true)" tabindex="-1">Пропустить</button>
+</div>
+
+<!-- ПЕРЕХОД: шторка с красной кромкой -->
+<div id="curtain" aria-hidden="true"><i></i></div>
+
+<a class="skip" href="#catalog">К каталогу</a>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="#top" onclick="return goSection('top')" aria-label="MEMORI, на главную">
+      <span class="logo-w">MEMORI</span><span class="logo-bar" aria-hidden="true"></span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#catalog" onclick="return goSection('catalog')">Каталог</a>
+      <a href="#match" onclick="openQuiz();return false">Подбор</a>
+      <a href="#families" onclick="return goSection('families')">Семейства</a>
+      <a href="#about" onclick="return goSection('about')">О магазине</a>
+    </nav>
+    <div class="hdr-act">
+      <button class="ib" type="button" onclick="focusSearch()" aria-label="Поиск"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button>
+      <button class="ib" type="button" onclick="toggleTheme()" aria-label="Сменить тему"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
+      <button class="ib" type="button" onclick="openDrawer('wish')" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg><b class="cnt" id="wishCount"></b></button>
+      <button class="ib" type="button" onclick="openDrawer('cart')" aria-label="Корзина"><svg viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12h-11z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><b class="cnt" id="cartCount"></b></button>
+    </div>
+  </div>
+  <div class="adm-bar" id="admBar">
+    <span>Режим владельца</span><span class="ab-ver" id="abVer"></span>
+    <button type="button" onclick="openAdmin()">Панель</button>
+    <button type="button" class="ab-pub" id="abPub" onclick="publishDB()">Всё опубликовано</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-in">
+      <div class="hero-txt">
+        <h1 id="heroTitle" class="rv">Запах, который запоминают</h1>
+        <p id="heroSub" class="rv">Оригинальная парфюмерия и отливанты. Выберите аромат, соберите заказ и отправьте его в мессенджер.</p>
+        <div class="hero-cta rv">
+          <button class="btn red" type="button" onclick="goSection('catalog')">Каталог</button>
+          <button class="btn line" type="button" onclick="openQuiz()">Подобрать аромат</button>
+        </div>
+      </div>
+      <div class="hero-vis" id="heroVis" aria-hidden="true"></div>
+    </div>
+    <div class="wrap hero-strip rv">
+      <div><b>Оригиналы</b><span>флаконы и отливанты из них</span></div>
+      <div><b>От 5 мл</b><span>попробуйте, прежде чем брать флакон</span></div>
+      <div><b>Без регистрации</b><span>заказ уходит в ваш мессенджер</span></div>
+    </div>
+  </section>
+
+  <section class="sec rail-sec" id="picks">
+    <div class="wrap sec-h">
+      <h2>Сейчас берут</h2>
+      <div class="seg" role="tablist" id="railTabs">
+        <button type="button" class="on" data-r="hit" role="tab">Хиты</button>
+        <button type="button" data-r="new" role="tab">Новинки</button>
+      </div>
+    </div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <section class="sec match" id="match">
+    <div class="wrap match-in">
+      <div class="match-txt">
+        <span class="eyebrow">Подбор по характеру</span>
+        <h2>Не знаете, что выбрать? Скажите, какой вы.</h2>
+        <p>Пять коротких вопросов: повод, сезон, характер и сила шлейфа. В конце три аромата, которые подходят именно вам, и объяснение почему.</p>
+        <button class="btn red" type="button" onclick="openQuiz()">Пройти подбор</button>
+      </div>
+      <div class="match-grid" id="matchGrid"></div>
+    </div>
+  </section>
+
+  <section class="sec fams" id="families">
+    <div class="wrap">
+      <h2>Семейства ароматов</h2>
+      <p class="sec-lead">Каждый аромат относится к семейству. Выберите то, что вам ближе, и каталог покажет только его.</p>
+      <div class="fam-list" id="famList"></div>
+    </div>
+  </section>
+
+  <section class="sec shop" id="catalog">
+    <div class="wrap">
+      <div class="shop-top">
+        <h2>Каталог</h2>
+        <div class="seg" id="genderSeg">
+          <button type="button" class="on" data-g="">Все</button>
+          <button type="button" data-g="m">Мужские</button>
+          <button type="button" data-g="w">Женские</button>
+          <button type="button" data-g="u">Унисекс</button>
+        </div>
+      </div>
+      <div class="shop-bar">
+        <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+          <input id="q" type="search" placeholder="Бренд, название или нота" autocomplete="off" aria-label="Поиск по каталогу"></label>
+        <button class="btn line flt-btn" type="button" onclick="openFilters()">Фильтры <b id="fltCount"></b></button>
+        <label class="sort"><span>Сортировка</span>
+          <select id="sort" aria-label="Сортировка">
+            <option value="pop">Популярные</option><option value="new">Новинки</option>
+            <option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option>
+            <option value="lon">Самые стойкие</option>
+          </select></label>
+      </div>
+      <div class="shop-in">
+        <aside class="flt" id="flt" aria-label="Фильтры">
+          <div class="flt-h"><b>Фильтры</b><button type="button" class="ib" onclick="closeFilters()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+          <div class="flt-body" id="fltBody"></div>
+          <div class="flt-foot"><button class="btn line" type="button" onclick="resetFilters()">Сбросить</button><button class="btn red" type="button" onclick="closeFilters()" id="fltShow">Показать</button></div>
+        </aside>
+        <div class="shop-main">
+          <div class="chips-on" id="chipsOn"></div>
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec about" id="about">
+    <div class="wrap about-in">
+      <div class="about-vis" id="aboutVis"></div>
+      <div class="about-txt">
+        <h2>Магазин, где отвечают за каждый флакон</h2>
+        <p id="ownerNote">Только оригинальная парфюмерия. Каждый флакон проверяем перед продажей, отливанты разливаем из своих флаконов.</p>
+        <div class="sign"><span id="ownerName">Ибрагим Токкаев</span><small>основатель MEMORI</small></div>
+        <dl class="facts">
+          <div><dt>Отливанты</dt><dd>5 и 10 мл из оригинального флакона. Носите неделю, потом решайте про флакон.</dd></div>
+          <div><dt>Заказ</dt><dd>Без регистрации. Сайт собирает текст заказа, вы отправляете его в удобный мессенджер.</dd></div>
+          <div><dt>Получение</dt><dd id="deliveryShort">Самовывоз, курьер по Грозному, доставка по Чечне и России.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr" id="ftr">
+  <div class="wrap ftr-in">
+    <div class="ftr-brand"><span class="logo-w">MEMORI</span><p>Парфюмерия в Грозном</p></div>
+    <div class="ftr-col" id="ftrContacts"></div>
+    <div class="ftr-col">
+      <button type="button" onclick="openInfo('terms')">Условия покупки</button>
+      <button type="button" onclick="openInfo('privacy')">Конфиденциальность</button>
+      <button type="button" onclick="openInfo('orig')">Как проверить оригинал</button>
+    </div>
+  </div>
+  <div class="wrap ftr-low"><span id="ftrSeller">MEMORI</span><button type="button" class="ftr-adm" onclick="openAdminGate()">Вход для владельца</button></div>
+</footer>
+
+<!-- КАРТОЧКА АРОМАТА (досье) -->
+<div class="ov pview" id="pview" role="dialog" aria-modal="true" aria-label="Аромат">
+  <div class="pv-bar"><button class="ib" type="button" onclick="closeProduct()" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span id="pvCrumb"></span><button class="ib" type="button" onclick="closeProduct()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="pv-body" id="pvBody"></div>
+</div>
+
+<!-- ПОДБОР -->
+<div class="ov quiz" id="quiz" role="dialog" aria-modal="true" aria-label="Подбор аромата">
+  <div class="pv-bar"><button class="ib" type="button" onclick="quizBack()" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span>Подбор по характеру</span><button class="ib" type="button" onclick="closeQuiz()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="qz-prog"><i id="qzProg"></i></div>
+  <div class="qz-body" id="qzBody"></div>
+</div>
+
+<!-- КОРЗИНА И ИЗБРАННОЕ -->
+<div class="shade" id="shade" onclick="closeAll()"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Корзина">
+  <div class="dr-h"><div class="seg" id="drTabs"><button type="button" data-d="cart" class="on">Корзина</button><button type="button" data-d="wish">Избранное</button></div>
+    <button class="ib" type="button" onclick="closeDrawer()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="dr-body" id="drBody"></div>
+  <div class="dr-foot" id="drFoot"></div>
+</aside>
+
+<!-- ОФОРМЛЕНИЕ -->
+<div class="modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+  <div class="md-box md-wide">
+    <div class="md-h"><h3 id="orderTitle">Оформление заказа</h3><button class="ib" type="button" onclick="closeModal('orderModal')" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="md-b">
+      <div class="fld"><span class="lbl">Как получить</span><div class="opts" id="shipOpts"></div></div>
+      <div class="fld" id="addrFld"><label class="lbl" for="addr">Город и адрес</label><input class="inp" id="addr" autocomplete="off" placeholder="Например: Грозный, улица, дом"></div>
+      <div class="fld"><label class="lbl" for="ocomm">Комментарий</label><input class="inp" id="ocomm" autocomplete="off" placeholder="Удобное время, подарочная упаковка"></div>
+      <div class="fld"><label class="lbl" for="orderText">Текст заказа</label><textarea class="inp" id="orderText" rows="8"></textarea><small class="hint">Можно поправить. Имя и телефон сайт не спрашивает и не хранит: вы просто пишете магазину.</small></div>
+      <div class="ch-row">
+        <button class="btn ch" type="button" data-ch="telegram" onclick="sendOrder('telegram')">Telegram</button>
+        <button class="btn ch" type="button" data-ch="whatsapp" onclick="sendOrder('whatsapp')">WhatsApp</button>
+        <button class="btn ch" type="button" data-ch="instagram" onclick="sendOrder('instagram')">Instagram</button>
+      </div>
+      <button class="btn line block" type="button" onclick="copyOrder()">Скопировать текст</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+  <div class="md-box"><div class="md-h"><h3 id="infoTitle"></h3><button class="ib" type="button" onclick="closeModal('infoModal')" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="md-b prose" id="infoBody"></div></div>
+</div>
+
+<div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="md-box md-sm"><div class="md-h"><h3 id="loginTitle">Вход для владельца</h3><button class="ib" type="button" onclick="closeModal('loginModal')" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <form class="md-b" onsubmit="tryLogin();return false">
+      <div class="fld"><label class="lbl" for="loginUser">Логин</label><input class="inp" id="loginUser" autocomplete="username"></div>
+      <div class="fld"><label class="lbl" for="loginPass">Пароль</label><input class="inp" id="loginPass" type="password" autocomplete="current-password"></div>
+      <p class="err" id="loginErr" hidden>Неверный логин или пароль</p>
+      <button class="btn red block" type="submit">Войти</button>
+    </form></div>
+</div>
+
+<div class="modal" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmText">
+  <div class="md-box md-sm"><div class="md-b"><p id="confirmText"></p><div class="row2"><button class="btn line" type="button" onclick="closeModal('confirmModal')">Отмена</button><button class="btn red" type="button" id="confirmYes">Да</button></div></div></div>
+</div>
+
+<!-- ПАНЕЛЬ ВЛАДЕЛЬЦА -->
+<div class="ov admin" id="adminPanel" role="dialog" aria-modal="true" aria-label="Панель владельца">
+  <div class="pv-bar"><span class="adm-title">Панель владельца</span>
+    <div class="adm-acts"><button class="btn line sm" type="button" onclick="logoutAdmin()">Выйти</button><button class="btn red sm pubbtn" type="button" onclick="publishDB()">Всё опубликовано</button>
+    <button class="ib" type="button" onclick="closeAdmin()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div>
+  <div class="adm-tabs" id="admTabs">
+    <button type="button" data-tab="products">Ароматы</button><button type="button" data-tab="store">Магазин</button>
+    <button type="button" data-tab="access">Доступ</button><button type="button" data-tab="data">База</button>
+  </div>
+  <div class="adm-state" id="pubState"></div>
+  <div class="adm-body wrap" id="admBody"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/data.js?v=2026-10-28.1"></script>
+<script src="js/app.js?v=2026-10-28.1"></script>
+<script src="js/admin.js?v=2026-10-28.1"></script>
+</body>
+</html>
