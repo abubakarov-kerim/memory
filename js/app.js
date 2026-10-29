@@ -161,7 +161,7 @@ function curtain(cb){
   if(REDUCED || curBusy){ cb(); return; }
   curBusy=true; const c=$('#curtain');
   c.className='in';
-  setTimeout(()=>{ try{ cb(); }catch(e){ console.error(e); } c.className='out'; setTimeout(()=>{ c.className=''; curBusy=false; },520); },430);
+  setTimeout(()=>{ try{ cb(); }catch(e){ console.error(e); } c.className='out'; setTimeout(()=>{ c.className=''; curBusy=false; },760); },640);
 }
 function goSection(id){
   const go=()=>{ hideOverlays(); const el=document.getElementById(id); if(el){ const y=id==='top'?0:el.getBoundingClientRect().top+scrollY-($('#hdr').offsetHeight)+1; window.scrollTo({top:y,behavior:'instant'}); } };
@@ -324,7 +324,7 @@ function openProduct(id,noPush){
 }
 function closeProduct(){ if(history.state&&history.state.ov){ history.back(); } else { curtain(()=>{ $('#pview').classList.remove('open'); syncLock(); }); } }
 function meter(n,words){ return `<div class="meter">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}<em>${words[n-1]}</em></div>`; }
-function renderProduct(){
+function renderProduct(still){
   const p=byId(PV.id); if(!p) return;
   const v=p.variants.find(x=>x.ml===PV.ml)||minVar(p), out=soldOut(p), w=wish.includes(p.id);
   $('#pvCrumb').textContent=p.brand+' / '+p.name;
@@ -334,7 +334,7 @@ function renderProduct(){
   $('#pvBody').innerHTML=`<div class="pv">
     <div class="pv-gal"><div class="pv-gal-in"><div class="pv-main" id="pvMain">${visual(p,PV.img)}</div>${thumbs}
       <div class="pv-code">${barcodeSVG(p.code)}<span>MM-${esc(p.code)}</span></div></div></div>
-    <div class="pv-info stg">
+    <div class="pv-info${still?'':' stg'}">
       <div class="pv-brand">${esc(p.brand)}</div>
       <h1 class="pv-name">${esc(p.name)}</h1>
       <div class="pv-meta"><span>${esc(CONCS[p.conc]||p.conc)}</span><span>${esc(GENDERS[p.gender])}</span><b>${esc(famNames(p).join(', '))}</b></div>
@@ -389,7 +389,8 @@ function pvTime(t,setSlider){
   $('#tlSay').textContent=say[top];
 }
 function pvImg(i){ const p=byId(PV.id); PV.img=i; $('#pvMain').innerHTML=visual(p,i); $$('.pv-thumbs button').forEach((b,j)=>b.classList.toggle('on',j===i)); }
-function pvVol(ml){ PV.ml=ml; const sc=$('#pvBody').scrollTop; renderProduct(); $('#pvBody').scrollTop=sc; $$('#pvBody .stg>*').forEach(e=>e.style.animation='none'); }
+/* смена объёма: перерисовываем без анимации появления, иначе блоки на миг исчезают */
+function pvVol(ml){ PV.ml=ml; const sc=$('#pvBody').scrollTop; renderProduct(true); $('#pvBody').scrollTop=sc; }
 function pvAdd(buy){ const p=byId(PV.id); const v=p.variants.find(x=>x.ml===PV.ml); if(!v||v.out){ toast('Этого объёма сейчас нет'); return; }
   addToCart(p.id,v.ml,1); if(buy){ history.state&&history.state.ov ? (history.back(), setTimeout(()=>openDrawer('cart'),80)) : openDrawer('cart'); } }
 function similar(p){
@@ -594,7 +595,7 @@ function observeReveal(){
   setTimeout(()=>$$('#top .rv').forEach(e=>e.classList.add('in')), introDone?60:1900);
 }
 
-function reloadAll(){ loadData(); renderHero(); renderRail(); renderMatchGrid(); renderFamilies(); renderShop(); renderFooter(); renderDrawer(); updateCounts(); if($('#pview').classList.contains('open')) renderProduct(); if(typeof updateDraftUI==='function') updateDraftUI(); }
+function reloadAll(){ loadData(); renderHero(); renderRail(); renderMatchGrid(); renderFamilies(); renderShop(); renderFooter(); renderDrawer(); updateCounts(); if($('#pview').classList.contains('open')) renderProduct(true); if(typeof updateDraftUI==='function') updateDraftUI(); }
 
 /* ====== СОБЫТИЯ ====== */
 $('#railTabs').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; railMode=b.dataset.r; $$('#railTabs button').forEach(x=>x.classList.toggle('on',x===b)); renderRail(); });
