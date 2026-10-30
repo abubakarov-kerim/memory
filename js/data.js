@@ -33,7 +33,7 @@ const DEFAULT_PRODUCTS = [
     desc:'Классика успеха: дымная берёза и сочный ананас. Подходит и на переговоры, и на вечер.',
     variants:[{ml:5,price:1800},{ml:10,price:3400},{ml:100,price:42000}],
     season:['spring','summer','autumn'], time:['day','night'], lon:4, sil:4, char:['leader','fresh'], occ:['work','daily','event'],
-    bottle:{shape:'tall',tint:'#2B2B2E',cap:'silver'}, hit:true, images:[] },
+    bottle:{shape:'tall',tint:'#2B2B2E',cap:'silver'}, hit:true, images:['images/p/aventus-1.webp'] },
   { id:'br540', code:'0473', brand:'Maison Francis Kurkdjian', name:'Baccarat Rouge 540', conc:'EDP', gender:'u',
     fam:['oriental','woody'], top:['шафран','жасмин'], heart:['амбровое дерево','амбра'], base:['смола ели','кедр'],
     desc:'Сияющий шлейф, который узнают в комнате. Сладко-минеральный, очень стойкий.',

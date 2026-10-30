@@ -119,7 +119,9 @@ function bottleSVG(p){
   return `<svg class="bt" viewBox="0 0 200 312" role="img" aria-label="${esc(p.brand+' '+p.name)}">${defs}<ellipse cx="100" cy="296" rx="80" ry="10" fill="url(#${id}s)"/>${body}</svg>`;
 }
 /* картинка товара: фото, если есть, иначе рисунок флакона */
-function visual(p,i,cls){ const u=photo(p,i); return u ? `<img class="${cls||'ph'}" src="${esc(u)}" alt="${esc(p.brand+' '+p.name)}" loading="lazy" decoding="async">` : bottleSVG(p); }
+/* фото без фона (png/webp с прозрачностью) показываем целиком, по центру */
+const isCut = u => /^data:image\/(png|webp)/i.test(u||'') || /\.(png|webp)(\?|#|$)/i.test(u||'');
+function visual(p,i,cls){ const u=photo(p,i); return u ? `<img class="${cls||'ph'}${isCut(u)?' cut':''}" src="${esc(u)}" alt="${esc(p.brand+' '+p.name)}" loading="lazy" decoding="async">` : bottleSVG(p); }
 
 /* ====== ШТРИХКОД: у каждого аромата свой, из его кода ====== */
 function barcodeSVG(code){

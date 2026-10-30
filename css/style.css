@@ -569,3 +569,11 @@ body.intro-run #main{ transform:scale(1.035); }
 .hero-vis .bt,.card-img .bt,.about-vis .bt,.pv-main .bt,.qr-img .bt,.ci-img .bt,.ar-img .bt,.bt-prev .bt{ max-height:100%; flex:none; }
 @media (max-width:599px){ .dos-row{ grid-template-columns:92px 1fr; } .meter i{ width:16px; } }
 @media (max-width:599px){ .adm-title{ display:none; } .admin .pv-bar{ justify-content:flex-end; } }
+
+/* фото флакона без фона: целиком, по центру, с мягкой тенью */
+img.cut{ object-fit:contain!important; filter:drop-shadow(0 24px 30px rgba(0,0,0,.45)); }
+.card-img img.cut{ padding:4% 6%; }
+.pv-main img.cut{ padding:6% 8%; }
+.imgs .im.cutbg{ background:repeating-conic-gradient(var(--sur) 0 25%,var(--bg2) 0 50%) 0 0/14px 14px; }
+.imgs .im.cutbg img{ object-fit:contain; }
+.imgs .im .im-cut{ top:auto; bottom:2px; left:2px; right:2px; width:auto; height:22px; font:600 .6rem/1 var(--f-m); text-transform:uppercase; color:var(--tx); }

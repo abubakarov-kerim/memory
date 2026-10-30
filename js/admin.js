@@ -86,7 +86,8 @@ function renderEditor(){
     <div class="fld full"><span class="lbl">Характер (для подбора)</span>${chkGroup('e_char',CHARS,p.char)}</div>
     <div class="fld full"><span class="lbl">Повод (для подбора)</span>${chkGroup('e_occ',OCCS,p.occ)}</div>
     <div class="fld full"><span class="lbl">Фото (до 4, первое главное)</span><div class="imgs" id="e_imgs"></div>
-      <div style="display:flex;gap:8px;margin-top:10px"><input class="inp" id="e_url" placeholder="или вставьте ссылку на фото"><button class="adm-mini" type="button" onclick="addImgUrl()">Добавить</button></div></div>
+      <label class="chk" style="margin-top:10px"><input type="checkbox" id="e_cut" ${CUT_ON?'checked':''} onchange="CUT_ON=this.checked">Убирать фон автоматически (флакон на прозрачном фоне, по центру)</label>
+      <div style="display:flex;gap:8px;margin-top:6px"><input class="inp" id="e_url" placeholder="или вставьте ссылку на фото"><button class="adm-mini" type="button" onclick="addImgUrl()">Добавить</button></div></div>
     <div class="fld full"><span class="lbl">Рисунок флакона (если фото нет)</span>
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="bt-prev" id="e_prev"></div>
         <label class="lbl" style="margin:0">Форма <select class="inp" id="e_shape" onchange="btPrev()" style="min-height:40px;margin-top:6px">${opt({block:'Прямоугольный',tall:'Высокий',round:'Круглый',facet:'Гранёный',flask:'Флакон-фляга'},p.bottle.shape)}</select></label>
@@ -102,8 +103,33 @@ function addVar(){ $('#e_vars').insertAdjacentHTML('beforeend',varRow({ml:'',pri
 function readVars(){ return $$('#e_vars .vrow').map(r=>{ const i=r.querySelectorAll('input'); return {ml:+i[0].value||0,price:+i[1].value||0,old:+i[2].value||0,out:i[3].checked}; }).filter(v=>v.ml>0); }
 function btPrev(){ $('#e_prev').innerHTML=bottleSVG({brand:$('#e_brand').value,name:$('#e_name').value,bottle:{shape:$('#e_shape').value,tint:$('#e_tint').value,cap:$('#e_cap').value}}); }
 function renderImgs(){
-  $('#e_imgs').innerHTML=ED.images.map((u,i)=>`<div class="im"><img src="${esc(u)}" alt=""><button type="button" onclick="ED.images.splice(${i},1);renderImgs()" aria-label="Убрать фото">×</button></div>`).join('')+
-    (ED.images.length<4?`<label class="add">Загрузить фото<input type="file" accept="image/*" hidden onchange="pickImg(this,u=>{ED.images.push(u);renderImgs();})"></label>`:'');
+  $('#e_imgs').innerHTML=ED.images.map((u,i)=>`<div class="im${isCut(u)?' cutbg':''}"><img src="${esc(u)}" alt=""><button type="button" onclick="ED.images.splice(${i},1);renderImgs()" aria-label="Убрать фото">×</button>${isCut(u)?'':`<button type="button" class="im-cut" onclick="cutExisting(${i})">Убрать фон</button>`}</div>`).join('')+
+    (ED.images.length<4?`<label class="add">Загрузить фото<input type="file" accept="image/*" hidden onchange="pickImg(this,u=>{ED.images.push(u);renderImgs();},1400,CUT_ON)"></label>`:'');
+}
+/* ===== УДАЛЕНИЕ ФОНА =====
+   Нейросеть (js/cutout.js) находит флакон, фон становится прозрачным,
+   затем флакон ставится по центру кадра 4:5 с одинаковыми полями, чтобы все карточки выглядели ровно. */
+let CUT_ON=true;
+async function cutBg(canvas){
+  const q=await MLCUT.mask(canvas), r=MLCUT.apply(canvas,q,50);
+  if(!r.ok) return null;
+  const c=r.canvas, w=c.width, h=c.height, d=c.getContext('2d').getImageData(0,0,w,h).data;
+  let x0=w,y0=h,x1=-1,y1=-1;
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++) if(d[(y*w+x)*4+3]>40){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
+  if(x1<0) return null;
+  const bw=x1-x0+1, bh=y1-y0+1, H=Math.round(Math.max(bh/.84, bw/.8*1.25)), W=Math.round(H*.8);
+  const o=document.createElement('canvas'); o.width=W; o.height=H;
+  o.getContext('2d').drawImage(c,x0,y0,bw,bh,Math.round((W-bw)/2),Math.round(H*.92-bh),bw,bh);   // флакон стоит на «полу», сверху воздух
+  let out=o.toDataURL('image/webp',.9); if(out.indexOf('data:image/webp')!==0) out=o.toDataURL('image/png');
+  return out;
+}
+function imgCanvas(src){ return new Promise((res,rej)=>{ const im=new Image(); im.crossOrigin='anonymous';
+  im.onload=()=>{ const k=Math.min(1,1400/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement('canvas'); c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k); c.getContext('2d').drawImage(im,0,0,c.width,c.height); res(c); };
+  im.onerror=rej; im.src=src; }); }
+async function cutExisting(i){
+  toast('Убираю фон... (первый раз до 20 секунд)');
+  try{ const out=await cutBg(await imgCanvas(ED.images[i])); if(!out){ toast('Флакон на фото не найден, фото оставлено как есть'); return; } ED.images[i]=out; renderImgs(); toast('Фон убран'); }
+  catch(e){ toast('Не получилось убрать фон у этого фото. Загрузите его файлом.'); }
 }
 function addImgUrl(){ const u=$('#e_url').value.trim(); if(!/^(https?:\/\/|images\/)/.test(u)){ toast('Ссылка должна начинаться с https://'); return; } if(ED.images.length>=4){ toast('Уже 4 фото'); return; } ED.images.push(u); $('#e_url').value=''; renderImgs(); }
 const listOf = s => String(s||'').split(/[,;\n]/).map(x=>x.trim().toLowerCase()).filter(Boolean);
@@ -126,7 +152,7 @@ function saveProductForm(){
 }
 
 /* фото: уменьшаем и сжимаем в браузере, чтобы влезало в память и быстро грузилось */
-function pickImg(input,done,max){
+function pickImg(input,done,max,cut){
   const file=input.files[0]; if(!file) return; input.value='';
   max=max||1400;
   const fail=()=>toast('Не удалось прочитать фото. Попробуйте JPG или PNG');
@@ -135,6 +161,10 @@ function pickImg(input,done,max){
     im.onload=()=>{ const k=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement('canvas');
       c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k);
       const x=c.getContext('2d'); x.drawImage(im,0,0,c.width,c.height);
+      if(cut){ toast('Убираю фон... (первый раз до 20 секунд)');
+        cutBg(c).then(o=>{ if(o){ done(o); toast('Фото загружено, фон убран'); } else { done(c.toDataURL('image/jpeg',.86)); toast('Флакон не найден, фото загружено с фоном'); } })
+          .catch(()=>{ done(c.toDataURL('image/jpeg',.86)); toast('Не удалось убрать фон (нет интернета?). Фото загружено как есть'); });
+        return; }
       let alpha=false; try{ const d=x.getImageData(0,0,c.width,c.height).data; for(let i=3;i<d.length;i+=64){ if(d[i]<250){ alpha=true; break; } } }catch(e){}
       let out=alpha?c.toDataURL('image/webp',.9):c.toDataURL('image/jpeg',.86);
       if(alpha && out.indexOf('data:image/webp')!==0) out=c.toDataURL('image/png');

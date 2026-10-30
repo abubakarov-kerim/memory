@@ -1,6 +1,6 @@
 {
  "_v": 1,
- "_rev": 1,
+ "_rev": 2,
  "_date": "2026-10-29T18:55:57.476Z",
  "products": [
   {
@@ -140,7 +140,9 @@
     "cap": "silver"
    },
    "hit": true,
-   "images": []
+   "images": [
+    "images/p/aventus-1.webp"
+   ]
   },
   {
    "id": "br540",
