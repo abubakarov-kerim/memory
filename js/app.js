@@ -144,7 +144,7 @@ function introStart(){
   let h=47, bars='';
   for(let i=0;i<30;i++){ h=(h*1103515245+12345)&0x7fffffff; const w=1+(h%4); bars+=`<i style="width:${w}px;animation-delay:${(i*16)}ms;${i%7===3?'height:70%;align-self:center':''}"></i>`; }
   $('#inCode').innerHTML=bars;
-  $('#inWord').innerHTML=[...'MEMORI'].map((c,i)=>`<span style="animation-delay:${.55+i*.07}s">${c}</span>`).join('');
+  $('#inWord').innerHTML=[...'MEMORY'].map((c,i)=>`<span style="animation-delay:${.55+i*.07}s">${c}</span>`).join('');
   setTimeout(()=>{ if(!introDone) el.classList.add('open'); },1850);
   setTimeout(()=>introEnd(),2250);
   setTimeout(()=>{ if(!introDone) introEnd(); },4000);
@@ -182,7 +182,7 @@ function renderHero(){
   $('#heroTitle').textContent=STORE.heroTitle||DEFAULT_STORE.heroTitle;
   $('#heroSub').textContent=STORE.heroSub||DEFAULT_STORE.heroSub;
   const hp = PRODUCTS.find(p=>p.hit) || PRODUCTS[0];
-  $('#heroVis').innerHTML = STORE.heroImg ? `<img class="hv-photo" src="${esc(STORE.heroImg)}" alt="">` : (hp ? bottleSVG(Object.assign({},hp,{bottle:{shape:'block',tint:'#5A1220',cap:'black'},brand:'MEMORI',name:'N° 047'})) : '');
+  $('#heroVis').innerHTML = STORE.heroImg ? `<img class="hv-photo" src="${esc(STORE.heroImg)}" alt="">` : (hp ? bottleSVG(Object.assign({},hp,{bottle:{shape:'block',tint:'#5A1220',cap:'black'},brand:'MEMORY',name:'N° 047'})) : '');
   $('#heroVis').classList.toggle('has-photo',!!STORE.heroImg);
   $('#ownerNote').textContent=STORE.ownerNote||'';
   $('#ownerName').textContent=STORE.ownerName||'';
@@ -522,7 +522,7 @@ function setShip(k){ shipMode=k; renderShip(); $('#orderText').value=buildOrderT
 function buildOrderText(){
   const lines=cart.map((c,i)=>{ const {p,sum}=lineOf(c); return p?`${i+1}. ${p.brand} ${p.name}, ${CONCS[p.conc]?p.conc:''}, ${volName(c.ml)} × ${c.qty} = ${money(sum)}`:''; }).filter(Boolean);
   const total=cart.reduce((s,c)=>s+lineOf(c).sum,0), addr=$('#addr').value.trim(), com=$('#ocomm').value.trim();
-  return `Здравствуйте! Хочу оформить заказ в ${STORE.name||'MEMORI'}:\n\n${lines.join('\n')}\n\nИтого: ${money(total)}\nПолучение: ${SHIP[shipMode][0]}${shipMode!=='pickup'&&addr?'\nАдрес: '+addr:''}${com?'\nКомментарий: '+com:''}\n\nПодтвердите, пожалуйста, наличие и стоимость доставки.`;
+  return `Здравствуйте! Хочу оформить заказ в ${STORE.name||'MEMORY'}:\n\n${lines.join('\n')}\n\nИтого: ${money(total)}\nПолучение: ${SHIP[shipMode][0]}${shipMode!=='pickup'&&addr?'\nАдрес: '+addr:''}${com?'\nКомментарий: '+com:''}\n\nПодтвердите, пожалуйста, наличие и стоимость доставки.`;
 }
 function openOrder(){
   if(!cart.length){ toast('Корзина пуста'); return; }
@@ -566,7 +566,7 @@ function contactsHTML(){
 }
 function renderFooter(){
   $('#ftrContacts').innerHTML=contactsHTML();
-  $('#ftrSeller').textContent=(STORE.seller?STORE.seller+(STORE.inn?', ИНН '+STORE.inn:''):(STORE.name||'MEMORI'))+(STORE.instagram?'. *Instagram принадлежит Meta, признанной экстремистской в РФ':'');
+  $('#ftrSeller').textContent=(STORE.seller?STORE.seller+(STORE.inn?', ИНН '+STORE.inn:''):(STORE.name||'MEMORY'))+(STORE.instagram?'. *Instagram принадлежит Meta, признанной экстремистской в РФ':'');
 }
 function openInfo(kind){
   const s=STORE, seller=s.seller?esc(s.seller)+(s.inn?', ИНН '+esc(s.inn):''):'магазин '+esc(s.name);

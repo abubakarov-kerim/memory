@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MEMORI: парфюмерия в Грозном</title>
-<meta name="description" content="MEMORI: оригинальная парфюмерия и отливанты в Грозном. Каталог с фильтрами по нотам, подбор аромата по характеру и заказ в мессенджере.">
+<title>MEMORY: парфюмерия в Грозном</title>
+<meta name="description" content="MEMORY: оригинальная парфюмерия и отливанты в Грозном. Каталог с фильтрами по нотам, подбор аромата по характеру и заказ в мессенджере.">
 <meta name="theme-color" content="#0B0B0C">
-<meta property="og:title" content="MEMORI: запах, который запоминают">
+<meta property="og:title" content="MEMORY: запах, который запоминают">
 <meta property="og:description" content="Оригинальная парфюмерия и отливанты. Подбор аромата по характеру, заказ в Telegram, WhatsApp или Instagram.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0B0C'/%3E%3Cpath d='M7 24V8h3l6 9 6-9h3v16h-3V13l-6 9-6-9v11z' fill='%23EDEDEE'/%3E%3Crect x='7' y='26' width='18' height='2' fill='%23C8102E'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/FiraSansExtraCondensed-800-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=2026-10-30.1">
+<link rel="stylesheet" href="css/style.css?v=2026-10-30.2">
 <script>(function(){try{var t=localStorage.getItem('memori_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <script>
 /* АВТООБНОВЛЕНИЕ: если на сервере вышла новая версия, открываем её сами. При каждой публикации меняется MEMORI_BUILD. */
-var MEMORI_BUILD='2026-10-30.1';
+var MEMORI_BUILD='2026-10-30.2';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -49,8 +49,8 @@ var MEMORI_BUILD='2026-10-30.1';
 
 <header class="hdr" id="hdr">
   <div class="wrap hdr-in">
-    <a class="logo" href="#top" onclick="return goSection('top')" aria-label="MEMORI, на главную">
-      <span class="logo-w">MEMORI</span><span class="logo-bar" aria-hidden="true"></span>
+    <a class="logo" href="#top" onclick="return goSection('top')" aria-label="MEMORY, на главную">
+      <span class="logo-w">MEMORY</span><span class="logo-bar" aria-hidden="true"></span>
     </a>
     <nav class="nav" aria-label="Разделы">
       <a href="#catalog" onclick="return goSection('catalog')">Каталог</a>
@@ -165,7 +165,7 @@ var MEMORI_BUILD='2026-10-30.1';
       <div class="about-txt">
         <h2>Магазин, где отвечают за каждый флакон</h2>
         <p id="ownerNote">Только оригинальная парфюмерия. Каждый флакон проверяем перед продажей, отливанты разливаем из своих флаконов.</p>
-        <div class="sign"><span id="ownerName">Ибрагим Токкаев</span><small>основатель MEMORI</small></div>
+        <div class="sign"><span id="ownerName">Ибрагим Токкаев</span><small>основатель MEMORY</small></div>
         <dl class="facts">
           <div><dt>Отливанты</dt><dd>5 и 10 мл из оригинального флакона. Носите неделю, потом решайте про флакон.</dd></div>
           <div><dt>Заказ</dt><dd>Без регистрации. Сайт собирает текст заказа, вы отправляете его в удобный мессенджер.</dd></div>
@@ -178,7 +178,7 @@ var MEMORI_BUILD='2026-10-30.1';
 
 <footer class="ftr" id="ftr">
   <div class="wrap ftr-in">
-    <div class="ftr-brand"><span class="logo-w">MEMORI</span><p>Парфюмерия в Грозном</p></div>
+    <div class="ftr-brand"><span class="logo-w">MEMORY</span><p>Парфюмерия в Грозном</p></div>
     <div class="ftr-col" id="ftrContacts"></div>
     <div class="ftr-col">
       <button type="button" onclick="openInfo('terms')">Условия покупки</button>
@@ -186,7 +186,7 @@ var MEMORI_BUILD='2026-10-30.1';
       <button type="button" onclick="openInfo('orig')">Как проверить оригинал</button>
     </div>
   </div>
-  <div class="wrap ftr-low"><span id="ftrSeller">MEMORI</span><button type="button" class="ftr-adm" onclick="openAdminGate()">Вход для владельца</button></div>
+  <div class="wrap ftr-low"><span id="ftrSeller">MEMORY</span><button type="button" class="ftr-adm" onclick="openAdminGate()">Вход для владельца</button></div>
 </footer>
 
 <!-- КАРТОЧКА АРОМАТА (досье) -->
@@ -263,9 +263,9 @@ var MEMORI_BUILD='2026-10-30.1';
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/data.js?v=2026-10-30.1"></script>
-<script src="js/app.js?v=2026-10-30.1"></script>
-<script src="js/admin.js?v=2026-10-30.1"></script>
-<script src="js/cutout.js?v=2026-10-30.1"></script>
+<script src="js/data.js?v=2026-10-30.2"></script>
+<script src="js/app.js?v=2026-10-30.2"></script>
+<script src="js/admin.js?v=2026-10-30.2"></script>
+<script src="js/cutout.js?v=2026-10-30.2"></script>
 </body>
 </html>

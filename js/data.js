@@ -121,7 +121,7 @@ const DEFAULT_PRODUCTS = [
 ];
 
 const DEFAULT_STORE = {
-  name:'MEMORI', city:'Грозный', address:'', hours:'', currency:'₽',
+  name:'MEMORY', city:'Грозный', address:'', hours:'', currency:'₽',
   telegram:'', whatsapp:'', instagram:'',
   heroTitle:'Запах, который запоминают', heroSub:'Оригинальная парфюмерия и отливанты. Выберите аромат, соберите заказ и отправьте его в мессенджер.',
   heroImg:'', ownerNote:'Только оригинальная парфюмерия. Каждый флакон проверяем перед продажей, отливанты разливаем из своих флаконов.', ownerName:'Ибрагим Токкаев',
