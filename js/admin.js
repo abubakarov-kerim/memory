@@ -1,8 +1,8 @@
-/* ===== MEMORI: панель владельца =====
+/* ===== MEMORY: панель владельца =====
    Вход: адрес сайта + #admin (или /admin), логин admin. Изменения сначала черновик в браузере владельца,
    кнопка «Опубликовать» отправляет их в файлы сайта (data/db.json и images/p) через GitHub. */
-function isAdmin(){ try{ return sessionStorage.getItem('memori_authed')==='1'; }catch(e){ return false; } }
-function enableAdminMode(){ document.body.classList.add('admin-on'); $('#abVer').textContent='версия '+MEMORI_BUILD; updateDraftUI(); }
+function isAdmin(){ try{ return sessionStorage.getItem('memory_authed')==='1'; }catch(e){ return false; } }
+function enableAdminMode(){ document.body.classList.add('admin-on'); $('#abVer').textContent='версия '+MEMORY_BUILD; updateDraftUI(); }
 function disableAdminMode(){ document.body.classList.remove('admin-on'); }
 function adminBoot(){ if(isAdmin()) enableAdminMode(); if(location.hash==='#admin') openAdminGate(); }
 window.addEventListener('hashchange',()=>{ if(location.hash==='#admin') openAdminGate(); });
@@ -21,11 +21,11 @@ function openAdminGate(){
 function tryLogin(){
   const a=admCreds();
   if($('#loginUser').value.trim()===a.user && sha256($('#loginPass').value)===a.hash){
-    try{ sessionStorage.setItem('memori_authed','1'); }catch(e){}
+    try{ sessionStorage.setItem('memory_authed','1'); }catch(e){}
     closeModal('loginModal'); enableAdminMode(); openAdmin(); toast('Вы вошли как владелец');
   } else $('#loginErr').hidden=false;
 }
-function logoutAdmin(){ try{ sessionStorage.removeItem('memori_authed'); }catch(e){} disableAdminMode(); closeAdmin(); toast('Вы вышли'); }
+function logoutAdmin(){ try{ sessionStorage.removeItem('memory_authed'); }catch(e){} disableAdminMode(); closeAdmin(); toast('Вы вышли'); }
 let adminTab='products';
 function openAdmin(){ if(!isAdmin()){ openAdminGate(); return; } $('#adminPanel').classList.add('open'); syncLock(); admTab(adminTab); }
 function closeAdmin(){ $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
@@ -182,8 +182,8 @@ function admStore(){
   $('#admBody').innerHTML=`<div class="adm-h"><h2>Магазин</h2></div>
   <p class="adm-hint">Контакты нужны для кнопок заказа. Пустой мессенджер на сайте будет приглушён.</p>
   <div class="af">
-    ${f('telegram','Telegram (ник без @)','memori_grozny')}${f('whatsapp','WhatsApp (номер)','+7 928 000-00-00')}
-    ${f('instagram','Instagram (ник без @)','memori.parfum')}${f('city','Город','Грозный')}
+    ${f('telegram','Telegram (ник без @)','memory_grozny')}${f('whatsapp','WhatsApp (номер)','+7 928 000-00-00')}
+    ${f('instagram','Instagram (ник без @)','memory.parfum')}${f('city','Город','Грозный')}
     ${f('address','Адрес магазина','проспект, дом')}${f('hours','Часы работы','Ежедневно 10:00-21:00')}
     ${f('heroTitle','Заголовок на первом экране','',true)}${f('heroSub','Подзаголовок (до 20 слов)','',true)}
     ${img('heroImg','Фото первого экрана')}${img('aboutImg','Фото в блоке «О магазине»')}
@@ -225,9 +225,9 @@ function saveAccess(){
 }
 
 /* ----- база и публикация ----- */
-const GH_DEF={repo:'abubakarov-kerim/memori',branch:'main',token:''};
-const GH={ get(){ try{ return Object.assign({},GH_DEF,JSON.parse(localStorage.getItem('memori_gh')||'{}')); }catch(e){ return Object.assign({},GH_DEF); } },
-  set(o){ try{ localStorage.setItem('memori_gh',JSON.stringify(o)); }catch(e){} } };
+const GH_DEF={repo:'abubakarov-kerim/memory',branch:'main',token:''};
+const GH={ get(){ try{ return Object.assign({},GH_DEF,JSON.parse(localStorage.getItem('memory_gh')||'{}')); }catch(e){ return Object.assign({},GH_DEF); } },
+  set(o){ try{ localStorage.setItem('memory_gh',JSON.stringify(o)); }catch(e){} } };
 function admData(){
   const g=GH.get();
   $('#admBody').innerHTML=`<div class="adm-h"><h2>Публикация</h2></div>
@@ -255,7 +255,7 @@ function dropDraft(){ confirmAction('Отменить все неопублик�
 function exportDB(){
   const d={products:DB.products(),store:DB.store(),_date:new Date().toISOString()};
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,1)],{type:'application/json'}));
-  a.download='memori-base.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast('База скачана');
+  a.download='memory-base.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast('База скачана');
 }
 function importDB(input){
   const f=input.files[0]; if(!f) return; input.value='';

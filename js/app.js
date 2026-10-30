@@ -1,4 +1,4 @@
-/* ===== MEMORI: витрина =====
+/* ===== MEMORY: витрина =====
    Порядок данных: черновик владельца в браузере > data/db.json (опубликовано) > стандартные данные из data.js. */
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -12,11 +12,11 @@ function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('sho
 
 /* ====== БАЗА ДАННЫХ ======
    Товары с фото лежат в большом хранилище браузера (IndexedDB), остальное в localStorage. */
-const LS = { prod:'memori_products', store:'memori_store', admin:'memori_admin' };
+const LS = { prod:'memory_products', store:'memory_store', admin:'memory_admin' };
 let PUB = null;
 const BIG = { mem:null, db:null,
   open(){ return new Promise(res=>{ try{
-      const r=indexedDB.open('memori',1);
+      const r=indexedDB.open('memory',1);
       r.onupgradeneeded=()=>r.result.createObjectStore('kv');
       r.onsuccess=()=>{ BIG.db=r.result; res(true); };
       r.onerror=()=>res(false); r.onblocked=()=>res(false);
@@ -125,7 +125,7 @@ function visual(p,i,cls){ const u=photo(p,i); return u ? `<img class="${cls||'ph
 
 /* ====== ШТРИХКОД: у каждого аромата свой, из его кода ====== */
 function barcodeSVG(code){
-  let h=2166136261; const s=String(code||'MEMORI');
+  let h=2166136261; const s=String(code||'MEMORY');
   const rnd=()=>{ h^=h<<13; h^=h>>>17; h^=h<<5; return (h>>>0)/4294967296; };
   for(const ch of s){ h=Math.imul(h^ch.charCodeAt(0),16777619); }
   let x=0, bars='';
@@ -137,9 +137,9 @@ function barcodeSVG(code){
 let introDone=false;
 function introStart(){
   const el=$('#intro');
-  let seen=false; try{ seen=sessionStorage.getItem('memori_intro')==='1'; }catch(e){}
+  let seen=false; try{ seen=sessionStorage.getItem('memory_intro')==='1'; }catch(e){}
   if(seen || REDUCED || /^#(admin|p=)/.test(location.hash)){ el.classList.add('gone'); introDone=true; return; }
-  try{ sessionStorage.setItem('memori_intro','1'); }catch(e){}
+  try{ sessionStorage.setItem('memory_intro','1'); }catch(e){}
   document.body.classList.add('intro-run','lock');
   let h=47, bars='';
   for(let i=0;i<30;i++){ h=(h*1103515245+12345)&0x7fffffff; const w=1+(h%4); bars+=`<i style="width:${w}px;animation-delay:${(i*16)}ms;${i%7===3?'height:70%;align-self:center':''}"></i>`; }
@@ -173,7 +173,7 @@ function goSection(id){
 /* ====== ТЕМА ====== */
 function toggleTheme(){
   const t=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
-  curtain(()=>{ document.documentElement.setAttribute('data-theme',t); try{ localStorage.setItem('memori_theme',t); }catch(e){}
+  curtain(()=>{ document.documentElement.setAttribute('data-theme',t); try{ localStorage.setItem('memory_theme',t); }catch(e){}
     $('meta[name=theme-color]').setAttribute('content',t==='light'?'#F3F3F2':'#0B0B0C'); });
 }
 
@@ -463,8 +463,8 @@ function quizToCatalog(){
 
 /* ====== КОРЗИНА И ИЗБРАННОЕ (хранятся только в браузере покупателя) ====== */
 const loadSaved=k=>{ try{ const v=JSON.parse(localStorage.getItem(k)||'[]'); return Array.isArray(v)?v:[]; }catch(e){ return []; } };
-let cart=loadSaved('memori_cart').filter(c=>c&&c.id&&c.ml&&c.qty>0), wish=loadSaved('memori_wish').filter(x=>typeof x==='string');
-function saveCW(){ try{ localStorage.setItem('memori_cart',JSON.stringify(cart)); localStorage.setItem('memori_wish',JSON.stringify(wish)); }catch(e){} }
+let cart=loadSaved('memory_cart').filter(c=>c&&c.id&&c.ml&&c.qty>0), wish=loadSaved('memory_wish').filter(x=>typeof x==='string');
+function saveCW(){ try{ localStorage.setItem('memory_cart',JSON.stringify(cart)); localStorage.setItem('memory_wish',JSON.stringify(wish)); }catch(e){} }
 /* после загрузки товаров: убираем из корзины то, чего больше нет */
 function syncSaved(){ cart=cart.filter(c=>{ const p=byId(c.id); return p && p.variants.some(v=>v.ml===c.ml); }); if($('#cartCount')) updateCounts(); }
 const lineOf=c=>{ const p=byId(c.id), v=p&&p.variants.find(x=>x.ml===c.ml); return {p,v,sum:v?v.price*c.qty:0}; };
