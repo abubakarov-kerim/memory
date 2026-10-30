@@ -1,6 +1,6 @@
 {
  "_v": 1,
- "_rev": 1793368540410,
+ "_rev": 1793376509225,
  "_date": "2026-10-30T13:55:40.409Z",
  "products": [
   {
@@ -75,7 +75,9 @@
     "cap": "black"
    },
    "hit": true,
-   "images": [],
+   "images": [
+    "images/p/oud-wood-1.webp"
+   ],
    "hidden": false
   },
   {
@@ -225,7 +227,9 @@
     "cap": "gold"
    },
    "hit": true,
-   "images": []
+   "images": [
+    "images/p/br540-1.webp"
+   ]
   },
   {
    "id": "layton",
@@ -299,7 +303,9 @@
     "tint": "#1E2A44",
     "cap": "gold"
    },
-   "images": []
+   "images": [
+    "images/p/layton-1.webp"
+   ]
   },
   {
    "id": "sauvage-elixir",
@@ -372,7 +378,9 @@
     "cap": "black"
    },
    "hit": true,
-   "images": []
+   "images": [
+    "images/p/sauvage-elixir-1.webp"
+   ]
   },
   {
    "id": "bleu-chanel",
@@ -449,7 +457,9 @@
     "tint": "#18233A",
     "cap": "black"
    },
-   "images": []
+   "images": [
+    "images/p/bleu-chanel-1.webp"
+   ]
   },
   {
    "id": "tobacco-vanille",
@@ -518,7 +528,9 @@
     "tint": "#7A4A1E",
     "cap": "black"
    },
-   "images": []
+   "images": [
+    "images/p/tobacco-vanille-1.webp"
+   ]
   },
   {
    "id": "naxos",
@@ -593,7 +605,9 @@
     "cap": "gold"
    },
    "isNew": true,
-   "images": []
+   "images": [
+    "images/p/naxos-1.webp"
+   ]
   },
   {
    "id": "oud-greatness",
@@ -662,7 +676,9 @@
     "cap": "black"
    },
    "isNew": true,
-   "images": []
+   "images": [
+    "images/p/oud-greatness-1.webp"
+   ]
   },
   {
    "id": "interlude",
@@ -735,7 +751,9 @@
     "tint": "#2E3B52",
     "cap": "silver"
    },
-   "images": []
+   "images": [
+    "images/p/interlude-1.webp"
+   ]
   },
   {
    "id": "angels-share",
@@ -805,7 +823,9 @@
     "cap": "gold"
    },
    "isNew": true,
-   "images": []
+   "images": [
+    "images/p/angels-share-1.webp"
+   ]
   },
   {
    "id": "ombre-nomade",
@@ -874,7 +894,9 @@
     "tint": "#3B1E14",
     "cap": "black"
    },
-   "images": []
+   "images": [
+    "images/p/ombre-nomade-1.webp"
+   ]
   },
   {
    "id": "terre-hermes",
@@ -946,7 +968,9 @@
     "tint": "#C26A1C",
     "cap": "silver"
    },
-   "images": []
+   "images": [
+    "images/p/terre-hermes-1.webp"
+   ]
   },
   {
    "id": "khamrah",
@@ -1014,7 +1038,9 @@
     "cap": "gold"
    },
    "isNew": true,
-   "images": []
+   "images": [
+    "images/p/khamrah-1.webp"
+   ]
   },
   {
    "id": "libre",
@@ -1087,7 +1113,9 @@
     "tint": "#C9A24A",
     "cap": "gold"
    },
-   "images": []
+   "images": [
+    "images/p/libre-1.webp"
+   ]
   },
   {
    "id": "coco-mademoiselle",
@@ -1161,7 +1189,9 @@
     "tint": "#D9A28A",
     "cap": "black"
    },
-   "images": []
+   "images": [
+    "images/p/coco-mademoiselle-1.webp"
+   ]
   }
  ],
  "store": {
